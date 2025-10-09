@@ -129,7 +129,6 @@
 .education-icon img {
     width: 6rem;
     height: 6rem;
-    filter: brightness(50%); /* فقط مشکی می‌کند، invert(1) حذف شد */
 }
 
 .education-info {

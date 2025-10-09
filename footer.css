@@ -1,0 +1,232 @@
+/* ===== فوتر اصلی ===== */
+.site-footer {
+    background: linear-gradient(135deg, #1a1f3a 0%, #2d3561 100%);
+    color: #ffffff;
+    padding: 60px 0 0 0;
+    margin-top: 80px;
+    position: relative;
+    overflow: hidden;
+}
+
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #4a90e2 0%, #63b3ed 50%, #4a90e2 100%);
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== بخش اصلی فوتر ===== */
+.footer-main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 50px;
+    margin-bottom: 50px;
+}
+
+/* ===== ستون‌های فوتر ===== */
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.footer-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ebf2f7;
+    margin: 0 0 10px 0;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(99, 179, 237, 0.3);
+    position: relative;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    right: 0;
+    width: 60px;
+    height: 2px;
+    background: #63b3ed;
+}
+
+/* ===== بخش درباره روژان ===== */
+.footer-description {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #cbd5e0;
+    margin: 0;
+}
+
+.footer-badges {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.badge-img {
+    height: 80px;
+    width: auto;
+    transition: transform 0.3s ease, filter 0.3s ease;
+    filter: brightness(0.95);
+}
+
+.badge-img:hover {
+    transform: translateY(-5px);
+    filter: brightness(1.1);
+}
+
+/* ===== بخش تماس با ما ===== */
+.contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #cbd5e0;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    padding: 8px 0;
+}
+
+.contact-item i {
+    font-size: 1.3rem;
+    color: #d0e3f0;
+    width: 25px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.contact-item:hover {
+    color: #63b3ed;
+    transform: translateX(-5px);
+}
+
+.contact-item:hover i {
+    transform: scale(1.2);
+}
+
+/* ===== بخش شبکه‌های اجتماعی ===== */
+.social-icons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.social-icon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(99, 179, 237, 0.1);
+    border: 2px solid rgba(99, 179, 237, 0.3);
+    border-radius: 12px;
+    color: #63b3ed;
+    font-size: 1.4rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    background: #63b3ed;
+    color: #1a1f3a;
+    transform: translateY(-5px) rotate(5deg);
+    box-shadow: 0 10px 25px rgba(99, 179, 237, 0.4);
+}
+
+/* ===== شعار ===== */
+.footer-slogan {
+    margin-top: 15px;
+    padding: 20px;
+    background: rgba(99, 179, 237, 0.1);
+    border-radius: 12px;
+    border-right: 4px solid #d6e8f6;
+}
+
+.footer-slogan p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #bdd8eb;
+    margin: 0;
+    font-style: italic;
+    text-align: center;
+}
+
+/* ===== بخش کپی‌رایت ===== */
+.footer-bottom {
+    border-top: 1px solid rgba(99, 179, 237, 0.2);
+    padding: 25px 0;
+    text-align: center;
+}
+
+.footer-bottom p {
+    margin: 0;
+    color: #a0aec0;
+    font-size: 0.95rem;
+}
+
+/* ===== ریسپانسیو ===== */
+@media (max-width: 768px) {
+    .site-footer {
+        padding: 40px 0 0 0;
+        margin-top: 50px;
+    }
+    
+    .footer-main {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        margin-bottom: 35px;
+    }
+    
+    .footer-title {
+        font-size: 1.3rem;
+    }
+    
+    .footer-badges {
+        justify-content: center;
+    }
+    
+    .badge-img {
+        height: 70px;
+    }
+    
+    .social-icons {
+        justify-content: center;
+    }
+    
+    .contact-items {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-main {
+        gap: 35px;
+    }
+    
+    .social-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+    
+    .footer-slogan p {
+        font-size: 1rem;
+    }
+}
