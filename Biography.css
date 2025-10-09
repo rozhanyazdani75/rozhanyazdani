@@ -1,0 +1,185 @@
+/* Biography Timeline Section */
+.biography-section {
+    max-width: 1400px;
+    margin: 4rem auto;
+    margin-top: 0;
+    padding-top: 0;
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(66, 125, 192, 0.15);
+}
+
+.biography-container {
+    width: 100%;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #1f3079;
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+
+/* Year Tabs */
+.year-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.year-tab {
+    background: rgba(255, 255, 255, 0.8);
+    border: 2px solid #427dc0;
+    color: #427dc0;
+    padding: 0.8rem 2rem;
+    border-radius: 25px;
+    font-family: 'Yekan Bakh', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.year-tab:hover {
+    background: #427dc0;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(66, 125, 192, 0.3);
+}
+
+.year-tab.active {
+    background: linear-gradient(135deg, #203F78 0%, #6e92da 100%);
+    color: white;
+    border-color: #203F78;
+    box-shadow: 0 6px 20px rgba(66, 125, 192, 0.4);
+}
+
+/* Timeline Content */
+.timeline-content {
+    position: relative;
+    min-height: 400px;
+}
+
+.year-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.year-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Content Card */
+.content-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(66, 125, 192, 0.1);
+}
+
+.content-image {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(66, 125, 192, 0.2);
+}
+
+.content-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.content-image:hover img {
+    transform: scale(1.05);
+}
+
+.content-text h3 {
+    font-size: 2rem;
+    color: #1f3079;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+}
+
+.achievement-list {
+    list-style: none;
+    padding: 0;
+}
+
+.achievement-list li {
+    color: #4a5868;
+    font-size: 1.1rem;
+    padding: 0.8rem 0;
+    padding-right: 1.5rem;
+    position: relative;
+    line-height: 1.6;
+}
+
+.achievement-list li::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: #427dc0;
+    border-radius: 50%;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .content-card {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .year-tabs {
+        gap: 0.5rem;
+    }
+    
+    .year-tab {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .biography-section {
+        margin: 2rem 1rem;
+        padding: 2rem 1rem;
+    }
+    
+    .content-text h3 {
+        font-size: 1.5rem;
+    }
+    
+    .achievement-list li {
+        font-size: 1rem;
+    }
+}
