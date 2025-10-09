@@ -160,7 +160,7 @@
 }
 
 .footer-slogan p {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: #bdd8eb;
     margin: 0;
@@ -179,6 +179,14 @@
     margin: 0;
     color: #a0aec0;
     font-size: 0.95rem;
+}
+/* فیلتر برای تصویر نظام صنفی */
+.footer-badges img[alt="نماد نظام صنفی"] {
+    filter: brightness(0) invert(1);  /* تبدیل به سفید */
+    background-color: transparent;
+    padding: 8px;
+    transform: scale(1.6);
+    border-radius: 6px;
 }
 
 /* ===== ریسپانسیو ===== */
