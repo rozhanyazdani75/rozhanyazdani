@@ -109,17 +109,16 @@
     box-shadow: 0 12px 35px rgba(66, 125, 192, 0.25);
     border-color: #427dc0;
 }
-
 .education-icon {
     flex-shrink: 0;
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #203F78 0%, #427dc0 100%);
+    background: transparent; /* بکگراند حذف شد */
     border-radius: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(66, 125, 192, 0.3);
+    /* box-shadow حذف شد */
     transition: transform 0.3s ease;
 }
 
@@ -127,9 +126,14 @@
     transform: scale(1.1) rotate(5deg);
 }
 
-.education-icon i {
-    font-size: 2rem;
-    color: white;
+.education-icon img {
+    width: 6rem;
+    height: 6rem;
+    filter: brightness(50%); /* فقط مشکی می‌کند، invert(1) حذف شد */
+}
+
+.education-info {
+    flex: 1;
 }
 
 .education-info {
@@ -166,6 +170,7 @@
     font-weight: 600;
     border: 1px solid rgba(66, 125, 192, 0.2);
 }
+
 
 /* Certificates Area */
 .certificates-area {
@@ -367,9 +372,6 @@
         align-self: flex-start;
     }
 
-    .education-icon i {
-        font-size: 1.5rem;
-    }
 
     .certificate-icon {
         width: 60px;
