@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// مدیریت ارسال فرم
+// کد JavaScript اصلاح شده
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -52,11 +52,9 @@ document.getElementById('contactForm').addEventListener('submit', async function
     const btnText = submitBtn.querySelector('.btn-text');
     const originalText = btnText.textContent;
     
-    // غیرفعال کردن دکمه و نمایش وضعیت بارگذاری
     submitBtn.disabled = true;
     btnText.textContent = 'در حال ارسال...';
     
-    // دریافت اطلاعات فرم
     const formData = {
         name: document.getElementById('name').value.trim(),
         email: document.getElementById('email').value.trim(),
@@ -65,61 +63,42 @@ document.getElementById('contactForm').addEventListener('submit', async function
     };
     
     try {
-        // ارسال به GitHub Actions
-        const response = await fetch('https://api.github.com/repos/rozhanyazdani75/rozhanyazdani75.github.io/dispatches', {
+        // ساخت یک issue در GitHub که workflow رو trigger کنه
+        const issueBody = JSON.stringify(formData);
+        
+        // ارسال به یک endpoint که خودمون می‌سازیم
+        const response = await fetch('/.netlify/functions/send-telegram', {
             method: 'POST',
             headers: {
-                'Accept': 'application/vnd.github.v3+json',
-                'Authorization': 'Bearer ${{ secrets.GH_PAT }}',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                event_type: 'send-telegram',
-                client_payload: formData
-            })
+            body: JSON.stringify(formData)
         });
         
-        if (response.status === 204 || response.ok) {
-            // موفقیت‌آمیز
+        if (response.ok) {
             document.getElementById('contactForm').style.display = 'none';
             document.getElementById('formSuccess').style.display = 'block';
-            
-            // ریست کردن فرم
             this.reset();
             
-            // بازگشت به فرم بعد از 5 ثانیه
             setTimeout(() => {
                 document.getElementById('formSuccess').style.display = 'none';
                 document.getElementById('contactForm').style.display = 'block';
             }, 5000);
         } else {
-            throw new Error('Failed to trigger workflow');
+            throw new Error('Failed to send');
         }
         
     } catch (error) {
         console.error('Error:', error);
-        
-        // نمایش پیام خطا
         document.getElementById('contactForm').style.display = 'none';
         document.getElementById('formError').style.display = 'block';
         
-        // بازگشت به فرم بعد از 5 ثانیه
         setTimeout(() => {
             document.getElementById('formError').style.display = 'none';
             document.getElementById('contactForm').style.display = 'block';
         }, 5000);
     } finally {
-        // بازنشانی دکمه
         submitBtn.disabled = false;
         btnText.textContent = originalText;
     }
-});
-
-// اعتبارسنجی شماره تلفن ایرانی
-document.getElementById('phone').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/\D/g, '');
-    if (value.length > 11) {
-        value = value.slice(0, 11);
-    }
-    e.target.value = value;
 });
