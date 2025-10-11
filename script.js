@@ -42,15 +42,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-
-// کد JavaScript اصلاح شده
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const submitBtn = this.querySelector('.submit-btn');
     const btnText = submitBtn.querySelector('.btn-text');
-    const originalText = btnText.textContent;
     
     submitBtn.disabled = true;
     btnText.textContent = 'در حال ارسال...';
@@ -62,20 +58,37 @@ document.getElementById('contactForm').addEventListener('submit', async function
         message: document.getElementById('message').value.trim()
     };
     
+    const issueBody = `
+## 📞 پیام جدید از وبسایت
+
+**👤 نام:** ${formData.name}
+**📧 ایمیل:** ${formData.email}
+**📱 تلفن:** ${formData.phone}
+
+**💬 پیام:**
+${formData.message}
+
+---
+*ارسال شده از: ${window.location.href}*
+*زمان: ${new Date().toLocaleString('fa-IR')}*
+`;
+
     try {
-        // ساخت یک issue در GitHub که workflow رو trigger کنه
-        const issueBody = JSON.stringify(formData);
-        
-        // ارسال به یک endpoint که خودمون می‌سازیم
-        const response = await fetch('/.netlify/functions/send-telegram', {
+        // ایجاد Issue در GitHub (بدون نیاز به توکن!)
+        const response = await fetch('https://api.github.com/repos/rozhanyazdani75/rozhanyazdani75.github.io/issues', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify({
+                title: `📞 پیام از ${formData.name} - ${new Date().toLocaleDateString('fa-IR')}`,
+                body: issueBody,
+                labels: ['contact-form', 'website-message']
+            })
         });
         
-        if (response.ok) {
+        if (response.status === 201) {
             document.getElementById('contactForm').style.display = 'none';
             document.getElementById('formSuccess').style.display = 'block';
             this.reset();
@@ -85,20 +98,18 @@ document.getElementById('contactForm').addEventListener('submit', async function
                 document.getElementById('contactForm').style.display = 'block';
             }, 5000);
         } else {
-            throw new Error('Failed to send');
+            throw new Error('Failed to create issue');
         }
         
     } catch (error) {
         console.error('Error:', error);
-        document.getElementById('contactForm').style.display = 'none';
         document.getElementById('formError').style.display = 'block';
         
         setTimeout(() => {
             document.getElementById('formError').style.display = 'none';
-            document.getElementById('contactForm').style.display = 'block';
         }, 5000);
     } finally {
         submitBtn.disabled = false;
-        btnText.textContent = originalText;
+        btnText.textContent = 'ارسال پیام';
     }
 });
