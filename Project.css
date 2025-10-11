@@ -46,6 +46,9 @@
     box-shadow: 0 4px 20px rgba(66, 125, 192, 0.1);
     transition: all 0.3s ease;
     border: 1px solid rgba(66, 125, 192, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* تمام کارت‌ها هم ارتفاع باشند */
 }
 
 .project-card:hover {
@@ -54,23 +57,37 @@
     border-color: #427dc0;
 }
 
-/* Project Image */
+/* Project Image - مشکل اصلی اینجا بود */
 .project-image {
     position: relative;
     width: 100%;
-    height: 250px;
+    height: 280px; /* ارتفاع ثابت برای همه تصاویر */
     overflow: hidden;
+    flex-shrink: 0; /* جلوگیری از کوچک شدن */
+    background: #f8f9fa; /* پس‌زمینه در صورت عدم بارگذاری تصویر */
 }
 
 .project-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* تغییر از cover به contain */
+    object-position: center; /* وسط چین کردن تصویر */
     transition: transform 0.4s ease;
+    background: white; /* پس‌زمینه سفید برای تصاویر شفاف */
+}
+
+/* اگر می‌خواهید تصاویر کل فضا رو پر کنند (ممکن است برش بخورند) */
+.project-image.cover img {
+    object-fit: cover;
+}
+
+/* اگر می‌خواهید تصاویر کشیده شوند تا کل فضا رو پر کنند */
+.project-image.fill img {
+    object-fit: fill;
 }
 
 .project-card:hover .project-image img {
-    transform: scale(1.1);
+    transform: scale(1.05); /* کمتر کردن مقدار scale */
 }
 
 /* Project Overlay */
@@ -119,6 +136,9 @@
 /* Project Info */
 .project-info {
     padding: 1.5rem;
+    flex: 1; /* باعث می‌شود محتوا فضای باقی‌مانده رو پر کند */
+    display: flex;
+    flex-direction: column;
 }
 
 .project-title {
@@ -137,6 +157,7 @@
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 1rem;
+    align-self: flex-start; /* چپ چین کردن */
 }
 
 .project-description {
@@ -144,6 +165,7 @@
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 1rem;
+    flex: 1; /* فضای باقی‌مانده رو پر کند */
 }
 
 /* Project Tags */
@@ -151,6 +173,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    margin-top: auto; /* به پایین کارت می‌چسباند */
 }
 
 .tag {
@@ -229,7 +252,7 @@
     }
 
     .project-image {
-        height: 220px;
+        height: 250px;
     }
 }
 
@@ -258,7 +281,7 @@
     }
 
     .project-image {
-        height: 200px;
+        height: 220px;
     }
 
     .load-more-btn {
@@ -288,6 +311,10 @@
     .view-details {
         padding: 0.7rem 1.5rem;
         font-size: 0.9rem;
+    }
+
+    .project-image {
+        height: 200px;
     }
 }
 
