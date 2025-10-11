@@ -136,9 +136,11 @@
 /* Project Info */
 .project-info {
     padding: 1.5rem;
-    flex: 1; /* باعث می‌شود محتوا فضای باقی‌مانده رو پر کند */
+    flex: 1;
     display: flex;
     flex-direction: column;
+    text-align: right; /* اضافه کن - همه متن‌ها راست‌چین */
+    direction: rtl; /* اضافه کن - جهت راست به چپ */
 }
 
 .project-title {
@@ -146,6 +148,7 @@
     color: #1f3079;
     margin-bottom: 0.5rem;
     font-weight: 700;
+    text-align: right; /* اضافه کن */
 }
 
 .project-category {
@@ -157,15 +160,19 @@
     font-size: 0.85rem;
     font-weight: 600;
     margin-bottom: 1rem;
-    align-self: flex-start; /* چپ چین کردن */
+    align-self: flex-start;
+    text-align: center; /* اضافه کن - متن داخل دکمه وسط‌چین */
 }
 
 .project-description {
     color: #4a5868;
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.8;
     margin-bottom: 1rem;
-    flex: 1; /* فضای باقی‌مانده رو پر کند */
+    flex: 1;
+    text-align: justify; /* justify کردن */
+    text-justify: inter-word;
+    direction: rtl;
 }
 
 /* Project Tags */
@@ -173,7 +180,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-top: auto; /* به پایین کارت می‌چسباند */
+    margin-top: auto;
+    justify-content: flex-start; /* اضافه کن - تگ‌ها از راست شروع شوند */
+    direction: rtl; /* اضافه کن */
 }
 
 .tag {

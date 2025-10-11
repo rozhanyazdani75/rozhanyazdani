@@ -1,0 +1,33 @@
+name: Send Telegram Message
+
+on:
+  repository_dispatch:
+    types: [send-telegram]
+
+jobs:
+  send-message:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Send message to Telegram
+        env:
+          BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          MESSAGE=$(cat << EOF
+          🔔 *پیام جدید از وبسایت*
+          
+          👤 *نام:* ${{ github.event.client_payload.name }}
+          📧 *ایمیل:* ${{ github.event.client_payload.email }}
+          📱 *تلفن:* ${{ github.event.client_payload.phone }}
+          
+          💬 *پیام:*
+          ${{ github.event.client_payload.message }}
+          
+          ⏰ *زمان:* $(TZ='Asia/Tehran' date '+%Y-%m-%d %H:%M:%S')
+          EOF
+          )
+          
+          curl -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "{\"chat_id\":\"${CHAT_ID}\",\"text\":\"${MESSAGE}\",\"parse_mode\":\"Markdown\"}"
