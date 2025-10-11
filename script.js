@@ -42,74 +42,105 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+// Contact Form Handler - هماهنگ با طراحی شما
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    const submitBtn = this.querySelector('.submit-btn');
+    // عناصر فرم
+    const form = document.getElementById('contactForm');
+    const submitBtn = form.querySelector('.submit-btn');
     const btnText = submitBtn.querySelector('.btn-text');
+    const btnIcon = submitBtn.querySelector('.btn-icon');
+    const successDiv = document.getElementById('formSuccess');
+    const errorDiv = document.getElementById('formError');
     
+    // مخفی کردن پیام‌های قبلی
+    successDiv.style.display = 'none';
+    errorDiv.style.display = 'none';
+    
+    // نمایش لودینگ
     submitBtn.disabled = true;
+    submitBtn.style.opacity = '0.7';
     btnText.textContent = 'در حال ارسال...';
+    btnIcon.style.animation = 'spin 1s linear infinite';
     
+    // جمع‌آوری اطلاعات فرم
     const formData = {
         name: document.getElementById('name').value.trim(),
         email: document.getElementById('email').value.trim(),
-        phone: document.getElementById('phone').value.trim() || 'وارد نشده',
+        phone: document.getElementById('phone').value.trim(),
         message: document.getElementById('message').value.trim()
     };
     
-    const issueBody = `
-## 📞 پیام جدید از وبسایت
-
-**👤 نام:** ${formData.name}
-**📧 ایمیل:** ${formData.email}
-**📱 تلفن:** ${formData.phone}
-
-**💬 پیام:**
-${formData.message}
-
----
-*ارسال شده از: ${window.location.href}*
-*زمان: ${new Date().toLocaleString('fa-IR')}*
-`;
-
     try {
-        // ایجاد Issue در GitHub (بدون نیاز به توکن!)
-        const response = await fetch('https://api.github.com/repos/rozhanyazdani75/rozhanyazdani75.github.io/issues', {
+        // ارسال به GitHub Actions
+        const response = await fetch('https://api.github.com/repos/rozhanyazdani75/rozhanyazdani75.github.io/dispatches', {
             method: 'POST',
             headers: {
                 'Accept': 'application/vnd.github.v3+json',
+                'Authorization': `token ${getGitHubToken()}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                title: `📞 پیام از ${formData.name} - ${new Date().toLocaleDateString('fa-IR')}`,
-                body: issueBody,
-                labels: ['contact-form', 'website-message']
+                event_type: 'contact_form_submit',
+                client_payload: formData
             })
         });
         
-        if (response.status === 201) {
-            document.getElementById('contactForm').style.display = 'none';
-            document.getElementById('formSuccess').style.display = 'block';
-            this.reset();
+        if (response.ok) {
+            // نمایش پیام موفقیت
+            form.style.display = 'none';
+            successDiv.style.display = 'block';
             
+            // پاک کردن فرم
+            form.reset();
+            
+            // بازگرداندن فرم بعد از 5 ثانیه
             setTimeout(() => {
-                document.getElementById('formSuccess').style.display = 'none';
-                document.getElementById('contactForm').style.display = 'block';
+                successDiv.style.display = 'none';
+                form.style.display = 'block';
             }, 5000);
+            
         } else {
-            throw new Error('Failed to create issue');
+            throw new Error('خطا در ارسال به سرور');
         }
         
     } catch (error) {
-        console.error('Error:', error);
-        document.getElementById('formError').style.display = 'block';
+        console.error('Error sending message:', error);
         
+        // نمایش پیام خطا
+        form.style.display = 'none';
+        errorDiv.style.display = 'block';
+        
+        // بازگرداندن فرم بعد از 5 ثانیه
         setTimeout(() => {
-            document.getElementById('formError').style.display = 'none';
+            errorDiv.style.display = 'none';
+            form.style.display = 'block';
         }, 5000);
+        
     } finally {
+        // بازگرداندن دکمه به حالت عادی
         submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
         btnText.textContent = 'ارسال پیام';
+        btnIcon.style.animation = 'none';
     }
 });
+
+// تابع دریافت توکن GitHub (امن)
+function getGitHubToken() {
+    // اینجا توکن شما قرار می‌گیره (از GitHub Secrets)
+    return 'ghp_YOUR_TOKEN_HERE'; // این رو با توکن واقعی جایگزین کنید
+}
+
+// انیمیشن چرخش آیکون
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);

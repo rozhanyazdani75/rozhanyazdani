@@ -1,0 +1,36 @@
+/* بهبود انیمیشن دکمه ارسال */
+.submit-btn {
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.submit-btn:disabled {
+    cursor: not-allowed;
+    transform: scale(0.98);
+}
+
+.submit-btn .btn-icon {
+    transition: transform 0.3s ease;
+}
+
+/* انیمیشن نمایش پیام‌های موفقیت و خطا */
+.form-success, .form-error {
+    animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* بهبود ظاهر فرم در حالت لودینگ */
+.contact-form.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
