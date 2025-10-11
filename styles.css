@@ -25,7 +25,9 @@
 }
 
 html {
-    overflow-x: hidden;
+    overflow-x: hidden;    
+    scroll-behavior: smooth; /* اضافه کردن این خط */
+
 }
 
 body {
@@ -33,16 +35,14 @@ body {
     min-height: 100vh;
     overflow-x: hidden;
     width: 100%;
-    background: 
-        /* خطوط مورب */
-        /* دایره‌های شفاف */
-        radial-gradient(circle at 20% 30%, rgba(173, 216, 230, 0.4) 0%, transparent 50%),
-        /* گرادیان اصلی */
+    position: relative;
+    padding-top: 100px; 
+    background: radial-gradient(circle at 20% 30%, rgba(173, 216, 230, 0.4) 0%, transparent 50%);
 }
 
-body::before {
+/* body::before {
     content: '';
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -52,8 +52,8 @@ body::before {
         linear-gradient(-60deg, transparent 60%, rgba(135, 206, 235, 0.08) 62%, transparent 64%);
     background-size: 100px 100px, 100px 100px;
     z-index: -1;
-    animation: backgroundMove 20s linear infinite;
-}
+    animation: backgroundMove 40s linear infinite;
+} */
 
 @keyframes backgroundMove {
     0% { background-position: 0% 0%, 0% 0%; }
@@ -66,10 +66,20 @@ header {
     backdrop-filter: blur(10px);
     padding: 1rem 2rem;
     box-shadow: 0 2px 20px rgba(197, 184, 224, 0.3);
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
     width: 100%;
+    transition: all 0.3s ease;
+    transform: translateY(0); /* برای انیمیشن نرم */
+}
+
+/* حالت شفافیت بیشتر هنگام اسکرول (با JavaScript) */
+header.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 4px 30px rgba(197, 184, 224, 0.4);
 }
 
 nav {
