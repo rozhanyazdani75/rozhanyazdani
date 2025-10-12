@@ -44,3 +44,44 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+// Fullscreen Modal Functions
+function openFullscreen(button) {
+    const modal = document.getElementById('fullscreenModal');
+    const modalImg = document.getElementById('fullscreenImage');
+    const caption = document.getElementById('fullscreenCaption');
+    
+    const card = button.closest('.endorsement-card');
+    const img = card.querySelector('.endorsement-image');
+    const title = card.querySelector('.endorsement-title').textContent;
+    const description = card.querySelector('.endorsement-description').textContent;
+    
+    modal.style.display = 'block';
+    modalImg.src = img.src;
+    caption.textContent = title + ' - ' + description;
+    
+    // Prevent body scroll
+    document.body.style.overflow = 'hidden';
+}
+
+function closeFullscreen() {
+    const modal = document.getElementById('fullscreenModal');
+    modal.style.display = 'none';
+    
+    // Restore body scroll
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal on click outside
+window.onclick = function(event) {
+    const modal = document.getElementById('fullscreenModal');
+    if (event.target === modal) {
+        closeFullscreen();
+    }
+}
+
+// Close modal on ESC key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closeFullscreen();
+    }
+});

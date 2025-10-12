@@ -12,20 +12,15 @@
     <link rel="stylesheet" href="contact.css">
     <link rel="stylesheet" href="footer.css">
         <link rel="stylesheet" href="contactError.css">
+            <link rel="stylesheet" href="endorsements.css">
+
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <!-- Standard favicon -->
-<link rel="icon" href="images/favicon.png" type="image/png">
+<link rel="icon" href="images/favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-
-<!-- Apple Touch Icon (برای iOS) -->
-<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-
-<!-- برای سازگاری با IE -->
-<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
 
 
 
@@ -48,6 +43,7 @@
                 <li><a href="#projects">پروژه‌ها</a></li>
                 <li><a href="#clients">مشتریان</a></li>
                 <li><a href="#certificates">مدارک تخصصی</a></li>
+                <li><a href="#endorsements">حسن انجام کار</a></li>
                 <li><a href="#contact">ارتباط با من</a></li>
                 <li><a href="tel:+989121878125" class="cta-button"> مشاوره رایگان</a></li>
             </ul>
@@ -286,7 +282,7 @@
     <!-- Clients Section -->
     <section class="clients-section" id="clients">
         <div class="clients-container">
-            <h2 class="section-title">مشتریان و همکاران</h2>
+            <h2 class="section-title">مشتریان </h2>
             <p class="section-subtitle">افتخار همکاری با برندها و سازمان‌های معتبر</p>
             
 
@@ -448,6 +444,88 @@
         </div>
     </div>
 </section>
+
+<!-- Endorsements Section -->
+<section class="endorsements-section" id="endorsements">
+    <div class="endorsements-container">
+        <h2 class="section-title">حسن انجام کار</h2>
+        <p class="section-subtitle">تقدیرنامه‌ها و گواهی‌های حسن انجام کار از پروژه‌های مختلف</p>
+        
+        <div class="endorsements-grid">
+            <div class="endorsement-card">
+                <div class="endorsement-image-wrapper">
+                    <img src="./Images/endorsed-bond/Pic1.png" alt="گواهی حسن انجام کار 1" class="endorsement-image">
+                    <div class="endorsement-overlay">
+                        <button class="view-fullscreen" onclick="openFullscreen(this)">
+                            <i class="fas fa-expand"></i>
+                            مشاهده تمام صفحه
+                        </button>
+                    </div>
+                </div>
+                <div class="endorsement-info">
+                    <h4 class="endorsement-title">صنایع غذایی ژکسی</h4>
+                    <p class="endorsement-description">  پروژه پیاده‌سازی زیرساخت شبکه ویپ</p>
+                </div>
+            </div>
+
+            <div class="endorsement-card">
+                <div class="endorsement-image-wrapper">
+                    <img src="./Images/endorsed-bond/pic6.jpg" alt="گواهی حسن انجام کار 3" class="endorsement-image">
+                    <div class="endorsement-overlay">
+                        <button class="view-fullscreen" onclick="openFullscreen(this)">
+                            <i class="fas fa-expand"></i>
+                            مشاهده تمام صفحه
+                        </button>
+                    </div>
+                </div>
+                <div class="endorsement-info">
+                    <h4 class="endorsement-title">گروه بازرگانی ساکوود</h4>
+                    <p class="endorsement-description">پشنیبانی زیرساخت شبکه </p>
+                </div>
+            </div>
+
+            <div class="endorsement-card">
+                <div class="endorsement-image-wrapper">
+                    <img src="./Images/endorsed-bond/pic5.jpg" alt="گواهی حسن انجام کار 4" class="endorsement-image">
+                    <div class="endorsement-overlay">
+                        <button class="view-fullscreen" onclick="openFullscreen(this)">
+                            <i class="fas fa-expand"></i>
+                            مشاهده تمام صفحه
+                        </button>
+                    </div>
+                </div>
+                <div class="endorsement-info">
+                    <h4 class="endorsement-title">آژانس مسافرتی سفرهای دانا</h4>
+                    <p class="endorsement-description">پروژه پیاده‌سازی زیرساخت شبکه ویپ</p>
+                </div>
+            </div>
+                        <div class="endorsement-card">
+                <div class="endorsement-image-wrapper">
+                    <img src="./Images/endorsed-bond/pic7.jpg" alt="گواهی حسن انجام کار 4" class="endorsement-image">
+                    <div class="endorsement-overlay">
+                        <button class="view-fullscreen" onclick="openFullscreen(this)">
+                            <i class="fas fa-expand"></i>
+                            مشاهده تمام صفحه
+                        </button>
+                    </div>
+                </div>
+                <div class="endorsement-info">
+                    <h4 class="endorsement-title">آتاتک نما</h4>
+                    <p class="endorsement-description">پروژه پیکربندی سرورهای شبکه ویپ</p>
+                </div>
+            </div>
+
+            <!-- می‌توانید کارت‌های بیشتری اضافه کنید -->
+        </div>
+    </div>
+</section>
+<!-- Fullscreen Modal - این بخش مهم است! -->
+<div id="fullscreenModal" class="fullscreen-modal">
+    <span class="close-modal" onclick="closeFullscreen()">&times;</span>
+    <img class="fullscreen-content" id="fullscreenImage" alt="تصویر تمام صفحه">
+    <div id="fullscreenCaption" class="fullscreen-caption"></div>
+</div>
+
     <!-- Contact Section -->
 <!-- Contact Section -->
 <section class="contact-section" id="contact">
