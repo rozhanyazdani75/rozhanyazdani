@@ -222,7 +222,7 @@
     }
 
     .clients-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr); /* تغییر از 1fr به 2 ستون */
         gap: 1rem;
     }
 
