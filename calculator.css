@@ -1,0 +1,378 @@
+
+@font-face { 
+    font-family: 'Yekan Bakh'; 
+    src: url('woff2/YekanBakh-Regular.woff2') format('woff2'),
+        url('woff/YekanBakh-Regular.woff') format('woff');
+    font-weight: 400;
+}
+@font-face { 
+    font-family: 'Yekan Bakh'; 
+    src: url('woff2/YekanBakh-Bold.woff2') format('woff2'),
+        url('woff/YekanBakh-Bold.woff') format('woff');
+    font-weight: 800;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Yekan Bakh', Tahoma, sans-serif;
+    background: #f5f7fa;
+    min-height: 100vh;
+    padding: 1rem;
+    direction: rtl;
+}
+
+/* Container */
+.calculator-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Header */
+.calculator-header {
+    background: linear-gradient(135deg, #203F78 0%, #4d6ba8 100%);
+    color: white;
+    padding: 1.25rem;
+    text-align: center;
+}
+
+.calculator-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+}
+
+.calculator-subtitle {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Main Layout - دو بخش اصلی */
+.calculator-body {
+    display: flex;
+    flex-direction: row;
+}
+
+/* Left Side - Form Sections */
+.form-sections {
+    flex: 1;
+    padding: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-content: flex-start;
+}
+
+/* Right Side - Total Section */
+.total-section {
+    width: 300px;
+    background: linear-gradient(135deg, #203F78 0%, #4d6ba8 100%);
+    color: white;
+    padding: 1.25rem;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+/* Section - باکس‌های کوچک و هم‌اندازه */
+.section {
+    background: #f8f9fb;
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e8ecf1;
+    width: calc(33.333% - 0.667rem); /* سه تا در هر سطر */
+    transition: all 0.2s ease;
+}
+
+.section:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Section که تمام عرض را می‌گیرد */
+.section.full-width {
+    width: 100%;
+}
+
+/* Section Header */
+.section h2 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #203F78;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e8ecf1;
+}
+
+.section h3 {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #4a5868;
+    margin: 0.75rem 0 0.5rem;
+}
+
+/* Label - کوچک و فشرده */
+label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: white;
+    border-radius: 8px;
+    margin-bottom: 0.4rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    color: #4a5868;
+    border: 1px solid #e8ecf1;
+}
+
+label:hover {
+    background: #f0f3f7;
+}
+
+label.active {
+    background: #e8f0ff;
+    border-color: #4d6ba8;
+}
+
+/* Input Styles */
+input[type="checkbox"],
+input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #203F78;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e8ecf1;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #203F78;
+    font-family: 'Yekan Bakh', sans-serif;
+    background: white;
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: #4d6ba8;
+    box-shadow: 0 0 0 2px rgba(77, 107, 168, 0.1);
+}
+
+/* Note */
+.note {
+    font-size: 0.75rem;
+    color: #6B7280;
+    background: #f0f3f7;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    line-height: 1.4;
+    border-right: 2px solid #4d6ba8;
+}
+
+/* Collapsible Sections */
+#branchSection,
+#supportSection,
+#onsiteSection {
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    background: white;
+    border-radius: 8px;
+    border: 1px dashed #d1d5db;
+}
+
+/* Total Section Header */
+.total-section h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* Price Breakdown */
+#priceBreakdown {
+    font-size: 0.8rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+#priceBreakdown div {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#priceBreakdown div:last-child {
+    border-bottom: none;
+}
+
+/* Total Price Display */
+.total-price-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.total-label {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+}
+
+#totalPrice {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+/* Submit Button */
+button {
+    width: 100%;
+    padding: 0.75rem;
+    background: white;
+    color: #203F78;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'Yekan Bakh', sans-serif;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .section {
+        width: calc(50% - 0.5rem); /* دو تا در هر سطر */
+    }
+    
+    .calculator-body {
+        flex-direction: column;
+    }
+    
+    .total-section {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+}
+
+@media (max-width: 768px) {
+    .form-sections {
+        padding: 1rem;
+        gap: 0.75rem;
+    }
+    
+    .section {
+        width: 100%; /* یک ستون در موبایل */
+    }
+    
+    .calculator-header {
+        padding: 1rem;
+    }
+    
+    .calculator-title {
+        font-size: 1.25rem;
+    }
+    
+    .total-section {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 0.5rem;
+    }
+    
+    .calculator-container {
+        border-radius: 12px;
+    }
+    
+    .form-sections {
+        padding: 0.75rem;
+        gap: 0.5rem;
+    }
+    
+    .section {
+        padding: 0.75rem;
+    }
+    
+    .section h2 {
+        font-size: 0.9rem;
+    }
+    
+    label {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.6rem;
+    }
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section {
+    animation: fadeIn 0.3s ease;
+}
+
+/* گروه‌بندی برای بخش‌های خاص */
+.options-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.options-group label {
+    margin-bottom: 0;
+    flex: 1 1 calc(50% - 0.2rem);
+    min-width: 120px;
+}
