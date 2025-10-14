@@ -3,27 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>محاسبه قیمت مرکز تماس</title>
+    <title>Calculator</title>
     <link rel="stylesheet" href="calculator.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="Images/favicon.ico" type="image/x-icon">
 </head>
 <body>
+    <header>
+        <nav>
+            <img src="./Images/Logo.png" alt="Logo" class="logo">
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#projects">پروژه‌ها</a></li>
+                <li><a href="index.html#clients">مشتریان</a></li>
+                <li><a href="index.html#certificates">مدارک</a></li>
+                <li><a href="Calculator.html">تعرفه‌ها</a></li>
+                <li><a href="index.html#contact">ارتباط با من</a></li>
+                <li><a href="tel:+989121878125" class="cta-button"> مشاوره رایگان</a></li>
+            </ul>
+        </nav>
+    </header>
+    
     <div class="calculator-container">
-        <header class="calculator-header">
-            <h1 class="calculator-title">محاسبه قیمت نصب و راه‌اندازی مرکز تماس</h1>
-            <p class="calculator-subtitle">لطفاً گزینه‌های مورد نیاز خود را انتخاب کنید</p>
-        </header>
-        
         <div class="calculator-body">
             <div class="form-sections">
                 <!-- باکس 1: نصب و راه اندازی مرکز تماس -->
                 <div class="section">
                     <h2>نصب و راه اندازی مرکز تماس</h2>
                     
-                    <div class="input-group">
-                        <label>
-                            <input type="number" id="userCount" min="1" value="10" onchange="calculatePrice()">
-                            <span>تعداد کاربران</span>
-                        </label>
+                    <div class="counter-group">
+                        <button type="button" class="counter-btn" onclick="decrementCounter('userCount')">-</button>
+                        <input type="number" id="userCount" min="6" value="6" >
+                        <button type="button" class="counter-btn" onclick="incrementCounter('userCount')">+</button>
+                        <span class="counter-label">تعداد کاربران</span>
                     </div>
                     
                     <div class="radio-group">
@@ -38,8 +57,8 @@
                     </div>
                     
                     <div class="note">
-                        قیمت پایه: ۲۲.۵۰۰.۰۰۰ تومان تا ده کاربر (با ماشین مجازی)<br>
-                        قیمت پایه: ۳۲.۸۰۰.۰۰۰ تومان تا ده کاربر (بدون ماشین مجازی)<br>
+                        قیمت پایه: ۲۲.۵۰۰.۰۰۰ تومان تا شش کاربر (با ماشین مجازی)<br>
+                        قیمت پایه: ۳۲.۸۰۰.۰۰۰ تومان تا شش کاربر (بدون ماشین مجازی)<br>
                         هر کاربر اضافه: ۵۰۰.۰۰۰ تومان
                     </div>
                 </div>
@@ -65,13 +84,6 @@
                             </label>
                         </div>
                         
-                        <div class="input-group">
-                            <label>
-                                <input type="number" id="supportUserCount" min="6" value="6" onchange="calculatePrice()">
-                                <span>تعداد کاربران پشتیبانی</span>
-                            </label>
-                        </div>
-                        
                         <div class="note">
                             پشتیبانی ۶ ماهه: ۲۰.۰۰۰.۰۰۰ تومان (تا ۶ کاربر)<br>
                             پشتیبانی ۱ ساله: ۳۵.۰۰۰.۰۰۰ تومان (تا ۶ کاربر)<br>
@@ -91,11 +103,11 @@
                     </label>
                     
                     <div id="onsiteSection" style="display: none;">
-                        <div class="input-group">
-                            <label>
-                                <input type="number" id="onsiteDays" min="1" value="1" onchange="calculatePrice()">
-                                <span>تعداد روزهای حضور</span>
-                            </label>
+                        <div class="counter-group">
+                            <button type="button" class="counter-btn" onclick="decrementCounter('onsiteDays')">-</button>
+                            <input type="number" id="onsiteDays" min="1" value="1" readonly>
+                            <button type="button" class="counter-btn" onclick="incrementCounter('onsiteDays')">+</button>
+                            <span class="counter-label">تعداد روزهای حضور</span>
                         </div>
                         
                         <div class="note">
@@ -114,15 +126,15 @@
                     </label>
                     
                     <div id="branchSection" style="display: none;">
-                        <div class="input-group">
-                            <label>
-                                <input type="number" id="branchCount" min="1" value="1" onchange="calculatePrice()">
-                                <span>تعداد شعب</span>
-                            </label>
+                        <div class="counter-group">
+                            <button type="button" class="counter-btn" onclick="decrementCounter('branchCount')">-</button>
+                            <input type="number" id="branchCount" min="2" value="2" readonly>
+                            <button type="button" class="counter-btn" onclick="incrementCounter('branchCount')">+</button>
+                            <span class="counter-label">تعداد شعب</span>
                         </div>
                         
                         <div class="note">
-                            هزینه هر شعبه: ۱.۳۰۰.۰۰۰ تومان
+                            هزینه هر شعبه: ۲.۰۰۰.۰۰۰ تومان
                         </div>
                     </div>
                 </div>
@@ -132,10 +144,21 @@
                     <h2>خدمات تکمیلی</h2>
                     
                     <div class="checkbox-list">
+                        <!-- میکروتیک با تعداد -->
                         <label>
-                            <input type="checkbox" id="mikrotik" onchange="calculatePrice()">
+                            <input type="checkbox" id="mikrotik" onchange="toggleMikrotik(); calculatePrice()">
                             <span>راه اندازی کامل روتر میکروتیک</span>
                         </label>
+                        
+                        <div id="mikrotikSection" style="display: none; margin-right: 2rem; margin-top: 0.5rem;">
+                            <div class="counter-group">
+                                <button type="button" class="counter-btn" onclick="decrementCounter('mikrotikCount')">-</button>
+                                <input type="number" id="mikrotikCount" min="1" value="1" readonly>
+                                <button type="button" class="counter-btn" onclick="incrementCounter('mikrotikCount')">+</button>
+                                <span class="counter-label">تعداد روتر</span>
+                            </div>
+                        </div>
+                        
                         <label>
                             <input type="checkbox" id="gateway" onchange="calculatePrice()">
                             <span>راه اندازی گیت وی</span>
@@ -151,9 +174,9 @@
                     </div>
                     
                     <div class="note">
-                        راه اندازی روتر میکروتیک: ۸.۰۰۰.۰۰۰ تومان<br>
+                        راه اندازی روتر میکروتیک: ۸.۰۰۰.۰۰۰ تومان (هر روتر)<br>
                         راه اندازی گیت وی: ۳.۵۰۰.۰۰۰ تومان<br>
-                        اتصال به CRM: ۷.۰۰۰.۰۰۰ تومان<br>
+                        اتصال به سامانه مدیریت مشتریان: ۷.۰۰۰.۰۰۰ تومان<br>
                         اتصال به سامانه پیامکی: ۷.۰۰۰.۰۰۰ تومان
                     </div>
                 </div>
@@ -162,153 +185,60 @@
             <!-- سایدبار محاسبه قیمت -->
             <div class="total-section">
                 <h2>جزئیات قیمت</h2>
-                
-                <div id="priceBreakdown">
-                    <!-- JavaScript will fill this -->
-                </div>
-                
+                <div id="priceBreakdown"></div>
                 <div class="total-price-container">
                     <div class="total-label">مبلغ کل:</div>
                     <div id="totalPrice">۰ تومان</div>
                 </div>
-                
-                <button onclick="submitForm()">استعلام قیمت</button>
+                <button onclick="submitForm()">خرید</button>
             </div>
         </div>
     </div>
     
-    <script>
-        // Toggle functions
-        function toggleSupport() {
-            document.getElementById('supportSection').style.display = 
-                document.getElementById('supportNeeded').checked ? 'block' : 'none';
-        }
-        
-        function toggleOnsite() {
-            document.getElementById('onsiteSection').style.display = 
-                document.getElementById('onsiteSupport').checked ? 'block' : 'none';
-        }
-        
-        function toggleBranch() {
-            document.getElementById('branchSection').style.display = 
-                document.getElementById('branchConnection').checked ? 'block' : 'none';
-        }
-        
-        // Price calculation
-        function calculatePrice() {
-            let totalPrice = 0;
-            let breakdown = [];
-            
-            // 1. Base installation price
-            const userCount = parseInt(document.getElementById('userCount').value) || 10;
-            const hasVM = document.querySelector('input[name="vmOption"]:checked').value === 'yes';
-            
-            let baseInstallPrice = hasVM ? 22500000 : 32800000;
-            let extraUserFee = 0;
-            
-            if (userCount > 10) {
-                extraUserFee = (userCount - 10) * 500000;
-            }
-            
-            totalPrice += baseInstallPrice + extraUserFee;
-            
-            breakdown.push({
-                title: `نصب و راه‌اندازی مرکز تماس (${userCount} کاربر)`,
-                price: baseInstallPrice + extraUserFee
-            });
-            
-            // 2. Support
-            if (document.getElementById('supportNeeded').checked) {
-                const supportUsers = parseInt(document.getElementById('supportUserCount').value) || 6;
-                const supportMonths = document.querySelector('input[name="supportDuration"]:checked').value === '6' ? 6 : 12;
-                
-                let supportBasePrice = supportMonths === 6 ? 20000000 : 35000000;
-                let extraSupportUserFee = 0;
-                
-                if (supportUsers > 6) {
-                    extraSupportUserFee = (supportUsers - 6) * (supportMonths === 6 ? 500000 : 1000000);
-                }
-                
-                totalPrice += supportBasePrice + extraSupportUserFee;
-                
-                breakdown.push({
-                    title: `پشتیبانی ${supportMonths} ماهه (${supportUsers} کاربر)`,
-                    price: supportBasePrice + extraSupportUserFee
-                });
-            }
-            
-            // 3. Onsite support
-            if (document.getElementById('onsiteSupport').checked) {
-                const onsiteDays = parseInt(document.getElementById('onsiteDays').value) || 1;
-                const onsitePrice = onsiteDays * 3000000;
-                
-                totalPrice += onsitePrice;
-                
-                breakdown.push({
-                    title: `پشتیبانی حضوری (${onsiteDays} روز)`,
-                    price: onsitePrice
-                });
-            }
-            
-            // 4. Branch connection
-            if (document.getElementById('branchConnection').checked) {
-                const branchCount = parseInt(document.getElementById('branchCount').value) || 1;
-                const branchPrice = branchCount * 1300000;
-                
-                totalPrice += branchPrice;
-                
-                breakdown.push({
-                    title: `ارتباط بین شعب (${branchCount} شعبه)`,
-                    price: branchPrice
-                });
-            }
-            
-            // 5. Additional services
-            const additionalServices = [
-                { id: 'mikrotik', title: 'راه اندازی کامل روتر میکروتیک', price: 8000000 },
-                { id: 'gateway', title: 'راه اندازی گیت وی', price: 3500000 },
-                { id: 'crm', title: 'اتصال به CRM', price: 7000000 },
-                { id: 'sms', title: 'اتصال به سامانه پیامکی', price: 7000000 }
-            ];
-            
-            additionalServices.forEach(service => {
-                if (document.getElementById(service.id).checked) {
-                    totalPrice += service.price;
-                    breakdown.push({
-                        title: service.title,
-                        price: service.price
-                    });
-                }
-            });
-            
-            // Update UI
-            updatePriceBreakdown(breakdown);
-            document.getElementById('totalPrice').textContent = formatPrice(totalPrice) + ' تومان';
-        }
-        
-        function updatePriceBreakdown(breakdown) {
-            const container = document.getElementById('priceBreakdown');
-            container.innerHTML = '';
-            
-            breakdown.forEach(item => {
-                const div = document.createElement('div');
-                div.innerHTML = `<span>${item.title}</span><strong>${formatPrice(item.price)} تومان</strong>`;
-                container.appendChild(div);
-            });
-        }
-        
-        function formatPrice(price) {
-            return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-        
-        function submitForm() {
-            alert('درخواست شما با موفقیت ثبت شد.');
-        }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            calculatePrice();
-        });
-    </script>
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-main">
+                <div class="footer-column footer-about">
+                    <h3 class="footer-title">روژان یزدانی</h3>
+                    <p class="footer-description">
+                        ارائه‌دهنده خدمات تخصصی و مشاوره‌ی فناوری اطلاعات و ارتباطات در حوزه زیرساخت شبکه و نرم‌افزارهای سازمانی 
+                    </p>
+                    <div class="footer-badges">
+                        <a href="https://alborz.irannsr.org/fa/real_persones/2750694/swd_id/107725/%D8%A7%D8%B9%D8%B6%D8%A7-%D9%85%D8%B4%D8%A7%D9%88%D8%B1%D8%A7%D9%86-%D8%AD%D9%82%DB%8C%D9%82%DB%8C.html"
+                           target="_blank" rel="nofollow noopener" class="badge-link" title="مشاهده نماد نظام صنفی">
+                            <img src="./Images/Certified/NSR-Nezam-Senfi-Logo-PNG-Way2pay-98-10-02.png" alt="نماد نظام صنفی" class="badge-img">
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column footer-contact">
+                    <h3 class="footer-title">تماس با ما</h3>
+                    <div class="contact-items">
+                        <a href="mailto:rozhanyazdani75@gmail.com" class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>rozhanyazdani75@gmail.com</span>
+                        </a>
+                        <a href="https://wa.me/989121878125" class="contact-item" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>09121878125</span>
+                        </a>
+                        <a href="https://t.me/rozhan_yazdani" class="contact-item" target="_blank">
+                            <i class="fab fa-telegram"></i>
+                            <span>rozhan_yazdani</span>
+                        </a>
+                        <a href="https://linkedin.com/in/rozhan-yazdani" class="contact-item" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                            <span>Rozhan Yazdani</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 1403 تمامی حقوق محفوظ است</p>
+            </div>
+        </div>
+    </footer>
+    
+     <script src="calculator.js"></script>
+
 </body>
 </html>
