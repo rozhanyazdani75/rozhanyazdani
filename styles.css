@@ -170,7 +170,7 @@ nav {
 }
 
 .cta-button {
-    background: #2b55a4;
+    background: linear-gradient(135deg, #203F78 0%, #6e92da 50%, #d1d6df 100%);
     color: white !important;
     padding: 0.7rem 1.5rem;
     border-radius: 25px;
@@ -183,7 +183,7 @@ nav {
 
 .cta-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 6px 20px rgba(131, 152, 199, 0.932);
 }
 
 .cta-button::after {
@@ -254,14 +254,14 @@ nav {
 }
 
 .portfolio-btn {
-    background: #2353aa;
-    color: white !important;
+    background: linear-gradient(135deg, #203F78 0%, #6e92da 50%, #a2bae8 100%);
+    color: white;
     border: none;
     padding: 0.7rem 1.5rem;
     border-radius: 25px;
     font-family: 'Yekan Bakh', sans-serif;
     font-size: 17px;
-    font-display: #fff;
+    font-weight: 500;
     cursor: pointer;
     margin-top: 20px;
     transition: all 0.3s ease;
