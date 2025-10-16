@@ -2,7 +2,7 @@
 const EMAILJS_CONFIG = {
     PUBLIC_KEY: 'hTDxofA4zAchLRAvY',      // کلید عمومی از EmailJS
     SERVICE_ID: 'service_hsseq3j',      // شناسه سرویس
-    TEMPLATE_ID: 'template_qov1lnx'     // شناسه قالب
+    TEMPLATE_ID: 'template_gvaccco'     // شناسه قالب
 };
 
 // راه‌اندازی EmailJS
