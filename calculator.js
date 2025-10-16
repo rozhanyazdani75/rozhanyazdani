@@ -1,247 +1,296 @@
+// ==================== تنظیمات EmailJS ====================
+const EMAILJS_CONFIG = {
+    PUBLIC_KEY: 'hTDxofA4zAchLRAvY',      // کلید عمومی از EmailJS
+    SERVICE_ID: 'service_hsseq3j',      // شناسه سرویس
+    TEMPLATE_ID: 'template_qov1lnx'     // شناسه قالب
+};
 
-    // Toggle functions
-    function toggleSupport() {
-        document.getElementById('supportSection').style.display = 
-            document.getElementById('supportNeeded').checked ? 'block' : 'none';
-    }
+// راه‌اندازی EmailJS
+(function() {
+    emailjs.init(EMAILJS_CONFIG.PUBLIC_KEY);
+})();
+
+// ==================== Toggle functions ====================
+function toggleSupport() {
+    document.getElementById('supportSection').style.display = 
+        document.getElementById('supportNeeded').checked ? 'block' : 'none';
+}
+
+function toggleOnsite() {
+    document.getElementById('onsiteSection').style.display = 
+        document.getElementById('onsiteSupport').checked ? 'block' : 'none';
+}
+
+function toggleBranch() {
+    document.getElementById('branchSection').style.display = 
+        document.getElementById('branchConnection').checked ? 'block' : 'none';
+}
+
+function toggleMikrotik() {
+    document.getElementById('mikrotikSection').style.display = 
+        document.getElementById('mikrotik').checked ? 'block' : 'none';
+    calculatePrice();
+}
+
+// ==================== Counter functions ====================
+function incrementCounter(id) {
+    const input = document.getElementById(id);
+    input.value = parseInt(input.value) + 1;
+    calculatePrice();
+}
+
+function decrementCounter(id) {
+    const input = document.getElementById(id);
+    let minValue = 1;
     
-    function toggleOnsite() {
-        document.getElementById('onsiteSection').style.display = 
-            document.getElementById('onsiteSupport').checked ? 'block' : 'none';
-    }
+    if (id === 'userCount') minValue = 6;
+    if (id === 'branchCount') minValue = 2;
     
-    function toggleBranch() {
-        document.getElementById('branchSection').style.display = 
-            document.getElementById('branchConnection').checked ? 'block' : 'none';
-    }
-    
-    function toggleMikrotik() {
-        document.getElementById('mikrotikSection').style.display = 
-            document.getElementById('mikrotik').checked ? 'block' : 'none';
+    if (parseInt(input.value) > minValue) {
+        input.value = parseInt(input.value) - 1;
         calculatePrice();
     }
+}
 
-    // Counter functions
-    function incrementCounter(id) {
-        const input = document.getElementById(id);
-        input.value = parseInt(input.value) + 1;
-        calculatePrice();
-    }
-
-    function decrementCounter(id) {
-        const input = document.getElementById(id);
-        let minValue = 1;
-        
-        if (id === 'userCount') minValue = 6;
-        if (id === 'branchCount') minValue = 2;
-        
-        if (parseInt(input.value) > minValue) {
-            input.value = parseInt(input.value) - 1;
-            calculatePrice();
-        }
+// ==================== Price calculation ====================
+function calculatePrice() {
+    let totalPrice = 0;
+    let breakdown = [];
+    
+    // 1. Base installation price
+    const userCount = parseInt(document.getElementById('userCount').value) || 6;
+    const hasVM = document.querySelector('input[name="vmOption"]:checked').value === 'yes';
+    
+    let baseInstallPrice = hasVM ? 22500000 : 32800000;
+    let extraUserFee = 0;
+    
+    if (userCount > 6) {
+        extraUserFee = (userCount - 6) * 500000;
     }
     
-    // Price calculation
-    function calculatePrice() {
-        let totalPrice = 0;
-        let breakdown = [];
+    totalPrice += baseInstallPrice + extraUserFee;
+    
+    breakdown.push({
+        title: `نصب و راه‌اندازی مرکز تماس (${userCount} کاربر)`,
+        price: baseInstallPrice + extraUserFee
+    });
+    
+    // 2. Support
+    if (document.getElementById('supportNeeded').checked) {
+        const supportUsers = userCount;
+        const supportMonths = document.querySelector('input[name="supportDuration"]:checked').value === '6' ? 6 : 12;
         
-        // 1. Base installation price
-        const userCount = parseInt(document.getElementById('userCount').value) || 6;
-        const hasVM = document.querySelector('input[name="vmOption"]:checked').value === 'yes';
+        let supportBasePrice = supportMonths === 6 ? 20000000 : 35000000;
+        let extraSupportUserFee = 0;
         
-        let baseInstallPrice = hasVM ? 22500000 : 32800000;
-        let extraUserFee = 0;
-        
-        if (userCount > 6) {
-            extraUserFee = (userCount - 6) * 500000;
+        if (supportUsers > 6) {
+            extraSupportUserFee = (supportUsers - 6) * (supportMonths === 6 ? 500000 : 1000000);
         }
         
-        totalPrice += baseInstallPrice + extraUserFee;
+        totalPrice += supportBasePrice + extraSupportUserFee;
         
         breakdown.push({
-            title: `نصب و راه‌اندازی مرکز تماس (${userCount} کاربر)`,
-            price: baseInstallPrice + extraUserFee
-        });
-        
-        // 2. Support
-        if (document.getElementById('supportNeeded').checked) {
-            const supportUsers = userCount;
-            const supportMonths = document.querySelector('input[name="supportDuration"]:checked').value === '6' ? 6 : 12;
-            
-            let supportBasePrice = supportMonths === 6 ? 20000000 : 35000000;
-            let extraSupportUserFee = 0;
-            
-            if (supportUsers > 6) {
-                extraSupportUserFee = (supportUsers - 6) * (supportMonths === 6 ? 500000 : 1000000);
-            }
-            
-            totalPrice += supportBasePrice + extraSupportUserFee;
-            
-            breakdown.push({
-                title: `پشتیبانی ${supportMonths} ماهه (${supportUsers} کاربر)`,
-                price: supportBasePrice + extraSupportUserFee
-            });
-        }
-        
-        // 3. Onsite support
-        if (document.getElementById('onsiteSupport').checked) {
-            const onsiteDays = parseInt(document.getElementById('onsiteDays').value) || 1;
-            const onsitePrice = onsiteDays * 3000000;
-            
-            totalPrice += onsitePrice;
-            
-            breakdown.push({
-                title: `پشتیبانی حضوری (${onsiteDays} روز)`,
-                price: onsitePrice
-            });
-        }
-        
-        // 4. Branch connection
-        if (document.getElementById('branchConnection').checked) {
-            const branchCount = parseInt(document.getElementById('branchCount').value) || 2;
-            const branchPrice = (branchCount - 1) * 2000000;
-            
-            totalPrice += branchPrice;
-            
-            breakdown.push({
-                title: `ارتباط بین شعب (${branchCount} شعبه)`,
-                price: branchPrice
-            });
-        }
-        
-        // 5. Mikrotik
-        if (document.getElementById('mikrotik').checked) {
-            const mikrotikCount = parseInt(document.getElementById('mikrotikCount').value) || 1;
-            const mikrotikPrice = mikrotikCount * 8000000;
-            
-            totalPrice += mikrotikPrice;
-            
-            breakdown.push({
-                title: `راه اندازی کامل روتر میکروتیک (${mikrotikCount} دستگاه)`,
-                price: mikrotikPrice
-            });
-        }
-        
-        // 6. Additional services
-        const additionalServices = [
-            { id: 'gateway', title: 'راه اندازی گیت وی', price: 3500000 },
-            { id: 'crm', title: 'اتصال به CRM', price: 7000000 },
-            { id: 'sms', title: 'اتصال به سامانه پیامکی', price: 7000000 }
-        ];
-        
-        additionalServices.forEach(service => {
-            if (document.getElementById(service.id).checked) {
-                totalPrice += service.price;
-                breakdown.push({
-                    title: service.title,
-                    price: service.price
-                });
-            }
-        });
-        
-        // Update UI
-        updatePriceBreakdown(breakdown);
-        document.getElementById('totalPrice').textContent = formatPrice(totalPrice) + ' تومان';
-    }
-    
-    function updatePriceBreakdown(breakdown) {
-        const container = document.getElementById('priceBreakdown');
-        container.innerHTML = '';
-        
-        breakdown.forEach(item => {
-            const div = document.createElement('div');
-            div.innerHTML = `<span>${item.title}</span><strong>${formatPrice(item.price)} تومان</strong>`;
-            container.appendChild(div);
+            title: `پشتیبانی ${supportMonths} ماهه (${supportUsers} کاربر)`,
+            price: supportBasePrice + extraSupportUserFee
         });
     }
     
-    function formatPrice(price) {
-        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // 3. Onsite support
+    if (document.getElementById('onsiteSupport').checked) {
+        const onsiteDays = parseInt(document.getElementById('onsiteDays').value) || 1;
+        const onsitePrice = onsiteDays * 3000000;
+        
+        totalPrice += onsitePrice;
+        
+        breakdown.push({
+            title: `پشتیبانی حضوری (${onsiteDays} روز)`,
+            price: onsitePrice
+        });
     }
     
-    // ==================== اینجا تابع جدید submitForm ====================
-    function submitForm() {
-        const formData = collectFormData();
-        showContactModal(formData);
+    // 4. Branch connection
+    if (document.getElementById('branchConnection').checked) {
+        const branchCount = parseInt(document.getElementById('branchCount').value) || 2;
+        const branchPrice = (branchCount - 1) * 2000000;
+        
+        totalPrice += branchPrice;
+        
+        breakdown.push({
+            title: `ارتباط بین شعب (${branchCount} شعبه)`,
+            price: branchPrice
+        });
     }
     
-    function collectFormData() {
-        const userCount = document.getElementById('userCount').value;
-        const hasVM = document.querySelector('input[name="vmOption"]:checked').value === 'yes' ? 'دارم' : 'ندارم';
+    // 5. Mikrotik
+    if (document.getElementById('mikrotik').checked) {
+        const mikrotikCount = parseInt(document.getElementById('mikrotikCount').value) || 1;
+        const mikrotikPrice = mikrotikCount * 8000000;
         
-        let support = 'نمی‌خواهم';
-        if (document.getElementById('supportNeeded').checked) {
-            const supportDuration = document.querySelector('input[name="supportDuration"]:checked').value;
-            support = supportDuration === '6' ? 'شش‌ماهه' : 'یکساله';
-        }
+        totalPrice += mikrotikPrice;
         
-        let onsiteDays = '0';
-        if (document.getElementById('onsiteSupport').checked) {
-            onsiteDays = document.getElementById('onsiteDays').value;
-        }
-        
-        let branchCount = '0';
-        if (document.getElementById('branchConnection').checked) {
-            branchCount = document.getElementById('branchCount').value;
-        }
-        
-        let mikrotikCount = '0';
-        if (document.getElementById('mikrotik').checked) {
-            mikrotikCount = document.getElementById('mikrotikCount').value;
-        }
-        
-        const services = [];
-        if (document.getElementById('sms').checked) services.push('SMS');
-        if (document.getElementById('crm').checked) services.push('CRM');
-        if (document.getElementById('gateway').checked) services.push('Gateway');
-        
-        const totalPrice = document.getElementById('totalPrice').textContent;
-        
-        return {
-            userCount,
-            hasVM,
-            support,
-            onsiteDays,
-            branchCount,
-            mikrotikCount,
-            services,
-            totalPrice
-        };
+        breakdown.push({
+            title: `راه اندازی کامل روتر میکروتیک (${mikrotikCount} دستگاه)`,
+            price: mikrotikPrice
+        });
     }
     
-    function showContactModal(formData) {
-        const modal = document.createElement('div');
-        modal.className = 'contact-modal';
-        modal.innerHTML = `
-            <div class="modal-content">
-                <span class="close-modal" onclick="closeModal()">&times;</span>
-                <h2>اطلاعات تماس</h2>
-                <p>لطفاً نام و شماره تماس خود را وارد کنید:</p>
+    // 6. Additional services
+    const additionalServices = [
+        { id: 'gateway', title: 'راه اندازی گیت وی', price: 3500000 },
+        { id: 'crm', title: 'اتصال به CRM', price: 7000000 },
+        { id: 'sms', title: 'اتصال به سامانه پیامکی', price: 7000000 }
+    ];
+    
+    additionalServices.forEach(service => {
+        if (document.getElementById(service.id).checked) {
+            totalPrice += service.price;
+            breakdown.push({
+                title: service.title,
+                price: service.price
+            });
+        }
+    });
+    
+    // Update UI
+    updatePriceBreakdown(breakdown);
+    document.getElementById('totalPrice').textContent = formatPrice(totalPrice) + ' تومان';
+}
+
+function updatePriceBreakdown(breakdown) {
+    const container = document.getElementById('priceBreakdown');
+    container.innerHTML = '';
+    
+    breakdown.forEach(item => {
+        const div = document.createElement('div');
+        div.innerHTML = `<span>${item.title}</span><strong>${formatPrice(item.price)} تومان</strong>`;
+        container.appendChild(div);
+    });
+}
+
+function formatPrice(price) {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// ==================== Form submission ====================
+function submitForm() {
+    const formData = collectFormData();
+    showContactModal(formData);
+}
+
+function collectFormData() {
+    const userCount = document.getElementById('userCount').value;
+    const hasVM = document.querySelector('input[name="vmOption"]:checked').value === 'yes' ? 'دارم' : 'ندارم';
+    
+    let support = 'نمی‌خواهم';
+    if (document.getElementById('supportNeeded').checked) {
+        const supportDuration = document.querySelector('input[name="supportDuration"]:checked').value;
+        support = supportDuration === '6' ? 'شش‌ماهه' : 'یکساله';
+    }
+    
+    let onsiteDays = '0';
+    if (document.getElementById('onsiteSupport').checked) {
+        onsiteDays = document.getElementById('onsiteDays').value;
+    }
+    
+    let branchCount = '0';
+    if (document.getElementById('branchConnection').checked) {
+        branchCount = document.getElementById('branchCount').value;
+    }
+    
+    let mikrotikCount = '0';
+    if (document.getElementById('mikrotik').checked) {
+        mikrotikCount = document.getElementById('mikrotikCount').value;
+    }
+    
+    const services = [];
+    if (document.getElementById('sms').checked) services.push('SMS');
+    if (document.getElementById('crm').checked) services.push('CRM');
+    if (document.getElementById('gateway').checked) services.push('Gateway');
+    
+    const totalPrice = document.getElementById('totalPrice').textContent;
+    
+    return {
+        userCount,
+        hasVM,
+        support,
+        onsiteDays,
+        branchCount,
+        mikrotikCount,
+        services,
+        totalPrice
+    };
+}
+
+// ==================== Contact Modal ====================
+function showContactModal(formData) {
+    const modal = document.createElement('div');
+    modal.className = 'contact-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2>🔸 اطلاعات تماس</h2>
+            <p>لطفاً نام و شماره تماس خود را وارد کنید:</p>
+            
+            <div class="modal-form">
+                <div class="input-group">
+                    <label for="customerName">👤 نام و نام خانوادگی:</label>
+                    <input type="text" id="customerName" placeholder="مثال: احمد محمدی" required>
+                </div>
                 
-                <div class="modal-form">
-                    <input type="text" id="customerName" placeholder="نام و نام خانوادگی" required>
-                    <input type="tel" id="customerPhone" placeholder="شماره تماس (مثال: 09121234567)" 
-                           pattern="[0-9]{11}" maxlength="11" required>
-                    
-                    <div class="modal-buttons">
-                        <button onclick="sendToGoogleForm()" class="submit-btn">ارسال درخواست</button>
-                        <button onclick="closeModal()" class="cancel-btn">انصراف</button>
+                <div class="input-group">
+                    <label for="customerPhone">📱 شماره تماس:</label>
+                    <input type="tel" id="customerPhone" placeholder="09121234567" 
+                           pattern="09[0-9]{9}" maxlength="11" required>
+                    <small>شماره باید با 09 شروع شود</small>
+                </div>
+                
+                <div class="price-summary">
+                    <h3>💰 خلاصه درخواست:</h3>
+                    <div class="summary-item">
+                        <span>👥 تعداد کاربران:</span>
+                        <strong>${formData.userCount}</strong>
+                    </div>
+                    <div class="summary-item">
+                        <span>💻 ماشین مجازی:</span>
+                        <strong>${formData.hasVM}</strong>
+                    </div>
+                    <div class="summary-item total">
+                        <span>مبلغ کل:</span>
+                        <strong>${formData.totalPrice}</strong>
                     </div>
                 </div>
+                
+                <div class="modal-buttons">
+                    <button onclick="sendViaEmailJS()" class="submit-btn">
+                        📧 ارسال درخواست
+                    </button>
+                    <button onclick="closeModal()" class="cancel-btn">انصراف</button>
+                </div>
+                
+                <div class="security-note">
+                    🔐 اطلاعات شما با امنیت کامل ارسال می‌شود
+                </div>
             </div>
-        `;
-        
-        document.body.appendChild(modal);
-        window.currentFormData = formData;
-        
-        // فوکوس روی اولین اینپوت
-        setTimeout(() => {
-            document.getElementById('customerName').focus();
-        }, 100);
-    }
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    window.currentFormData = formData;
+    
+    setTimeout(() => {
+        document.getElementById('customerName').focus();
+    }, 100);
+    
+    // اجازه ارسال با Enter
+    modal.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendViaEmailJS();
+        }
+    });
+}
 
-function sendToGoogleForm() {
+// ==================== Send via EmailJS ====================
+async function sendViaEmailJS() {
     const name = document.getElementById('customerName').value.trim();
     const phone = document.getElementById('customerPhone').value.trim();
     
@@ -261,187 +310,163 @@ function sendToGoogleForm() {
     // نمایش لودینگ
     const submitBtn = document.querySelector('.submit-btn');
     const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'در حال آماده‌سازی...';
+    submitBtn.textContent = '⏳ در حال ارسال...';
     submitBtn.disabled = true;
     
-    // ذخیره اطلاعات برای پیگیری
-    const submissionData = {
-        name: name,
-        phone: phone,
-        userCount: formData.userCount,
-        hasVM: formData.hasVM,
+    // آماده‌سازی داده‌ها
+    const templateParams = {
+        customer_name: name,
+        customer_phone: phone,
+        user_count: formData.userCount,
+        has_vm: formData.hasVM,
         support: formData.support,
-        onsiteDays: formData.onsiteDays,
-        branchCount: formData.branchCount,
-        mikrotikCount: formData.mikrotikCount,
-        services: formData.services.join(', '),
-        totalPrice: formData.totalPrice,
-        timestamp: new Date().toLocaleString('fa-IR')
+        onsite_days: formData.onsiteDays || 'ندارد',
+        branch_count: formData.branchCount || 'ندارد',
+        mikrotik_count: formData.mikrotikCount || 'ندارد',
+        services: formData.services.length > 0 ? formData.services.join(', ') : 'هیچکدام',
+        total_price: formData.totalPrice,
+        submission_time: new Date().toLocaleString('fa-IR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }),
+        submission_id: generateUniqueId()
     };
     
-    localStorage.setItem('lastSubmission', JSON.stringify(submissionData));
-    
-    // ساخت URL کامل
-    let googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSf_d6Z3r_LGvZvi2tDYoOXuvxOuyn3M5NQedfT5ThGz_hyUIw/viewform?usp=pp_url';
-    
-    googleFormUrl += '&entry.1456930575=' + encodeURIComponent(name);
-    googleFormUrl += '&entry.376352998=' + encodeURIComponent(phone);
-    googleFormUrl += '&entry.1135762837=' + encodeURIComponent(formData.userCount);
-    googleFormUrl += '&entry.434882034=' + encodeURIComponent(formData.hasVM);
-    googleFormUrl += '&entry.1928539094=' + encodeURIComponent(formData.support);
-    googleFormUrl += '&entry.1429101457=' + encodeURIComponent(formData.onsiteDays);
-    googleFormUrl += '&entry.1047944155=' + encodeURIComponent(formData.branchCount);
-    googleFormUrl += '&entry.1203259422=' + encodeURIComponent(formData.mikrotikCount);
-    googleFormUrl += '&entry.2102768123=' + encodeURIComponent(formData.totalPrice);
-    
-    formData.services.forEach(service => {
-        googleFormUrl += '&entry.1224865428=' + encodeURIComponent(service);
-    });
-    
-    setTimeout(() => {
+    try {
+        // ارسال ایمیل
+        const response = await emailjs.send(
+            EMAILJS_CONFIG.SERVICE_ID,
+            EMAILJS_CONFIG.TEMPLATE_ID,
+            templateParams
+        );
+        
+        console.log('✅ ایمیل ارسال شد:', response);
+        
+        // ذخیره محلی
+        saveSubmissionLocal(templateParams);
+        
+        // بستن مودال و نمایش موفقیت
+        closeModal();
+        showSuccessMessage(templateParams.submission_id);
+        
+    } catch (error) {
+        console.error('❌ خطا در ارسال:', error);
+        
+        let errorMessage = 'خطا در ارسال درخواست. ';
+        
+        if (error.status === 400) {
+            errorMessage += 'اطلاعات نامعتبر است.';
+        } else if (error.status === 429) {
+            errorMessage += 'تعداد درخواست‌ها زیاد است. لطفاً کمی صبر کنید.';
+        } else if (!navigator.onLine) {
+            errorMessage += 'اتصال اینترنت را بررسی کنید.';
+        } else {
+            errorMessage += 'لطفاً دوباره تلاش کنید.';
+        }
+        
+        alert('❌ ' + errorMessage);
+        
+    } finally {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
-        closeModal();
-        
-        // نمایش مودال تأیید
-        showConfirmationModal(googleFormUrl, submissionData);
-    }, 800);
+    }
 }
 
-function showConfirmationModal(googleFormUrl, submissionData) {
-    const confirmModal = document.createElement('div');
-    confirmModal.className = 'contact-modal';
-    confirmModal.innerHTML = `
-        <div class="modal-content" style="max-width: 500px;">
-            <h2 style="color: #4CAF50; margin-bottom: 1rem;">✅ درخواست شما آماده ارسال است!</h2>
+// ==================== Helper Functions ====================
+function generateUniqueId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+}
+
+function saveSubmissionLocal(data) {
+    const submission = {
+        id: data.submission_id,
+        timestamp: new Date().toISOString(),
+        status: 'sent',
+        data: data
+    };
+    
+    let submissions = JSON.parse(localStorage.getItem('email_submissions') || '[]');
+    submissions.push(submission);
+    
+    if (submissions.length > 50) {
+        submissions = submissions.slice(-50);
+    }
+    
+    localStorage.setItem('email_submissions', JSON.stringify(submissions));
+}
+
+function showSuccessMessage(submissionId) {
+    const successModal = document.createElement('div');
+    successModal.className = 'contact-modal';
+    successModal.innerHTML = `
+        <div class="modal-content success">
+            <div class="success-icon">✅</div>
+            <h2>درخواست شما ارسال شد!</h2>
+            <p>درخواست شما با موفقیت به ایمیل ما ارسال شد</p>
             
-            <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; text-align: right;">
-                <h3 style="margin-bottom: 1rem; color: #333;">خلاصه درخواست شما:</h3>
-                <div style="display: grid; gap: 0.5rem; font-size: 0.95rem;">
-                    <div><strong>نام:</strong> ${submissionData.name}</div>
-                    <div><strong>تلفن:</strong> ${submissionData.phone}</div>
-                    <div><strong>تعداد کاربران:</strong> ${submissionData.userCount}</div>
-                    <div><strong>ماشین مجازی:</strong> ${submissionData.hasVM}</div>
-                    <div><strong>پشتیبانی:</strong> ${submissionData.support}</div>
-                    ${submissionData.onsiteDays !== '0' ? `<div><strong>روزهای حضوری:</strong> ${submissionData.onsiteDays}</div>` : ''}
-                    ${submissionData.branchCount !== '0' ? `<div><strong>تعداد شعب:</strong> ${submissionData.branchCount}</div>` : ''}
-                    ${submissionData.mikrotikCount !== '0' ? `<div><strong>روتر میکروتیک:</strong> ${submissionData.mikrotikCount}</div>` : ''}
-                    ${submissionData.services !== 'هیچکدام' ? `<div><strong>خدمات تکمیلی:</strong> ${submissionData.services}</div>` : ''}
-                    <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 2px solid #ddd;">
-                        <strong style="color: #1f3079; font-size: 1.1rem;">مبلغ کل: ${submissionData.totalPrice}</strong>
-                    </div>
-                </div>
+            <div class="submission-details">
+                <p><strong>شناسه پیگیری:</strong></p>
+                <code>${submissionId}</code>
+                <small>این شناسه را برای پیگیری نگه دارید</small>
             </div>
             
-            <p style="margin-bottom: 2rem; color: #555;">
-                برای تکمیل فرآیند درخواست، روی دکمه زیر کلیک کنید.<br>
-                <small style="color: #888;">تمام اطلاعات شما از قبل در فرم وارد شده است.</small>
-            </p>
-            
-            <div style="display: flex; gap: 1rem; flex-direction: column;">
-                <button onclick="window.open('${googleFormUrl}', '_blank'); trackSubmission();" 
-                        class="submit-btn" 
-                        style="width: 100%; padding: 1.2rem; font-size: 1.1rem; background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);">
-                    🚀 ارسال نهایی درخواست
-                </button>
-                
-                <div style="display: flex; gap: 1rem;">
-                    <button onclick="copyToClipboard('${googleFormUrl}')" 
-                            class="cancel-btn" 
-                            style="flex: 1; background: #2196F3; color: white;">
-                        📋 کپی لینک
-                    </button>
-                    <button onclick="closeModal()" 
-                            class="cancel-btn" 
-                            style="flex: 1;">
-                        بستن
-                    </button>
-                </div>
+            <div class="next-steps">
+                <h4>مراحل بعدی:</h4>
+                <ul>
+                    <li>✓ درخواست شما دریافت شد</li>
+                    <li>⏳ بررسی توسط کارشناسان (1-2 ساعت)</li>
+                    <li>📞 تماس برای هماهنگی</li>
+                </ul>
             </div>
             
-            <div style="margin-top: 2rem; padding: 1rem; background: #e3f2fd; border-radius: 8px; font-size: 0.9rem; color: #1565c0;">
-                💡 <strong>راهنمایی:</strong> بعد از کلیک روی دکمه بالا، در صفحه باز شده فقط روی "ارسال" کلیک کنید.
-            </div>
+            <button onclick="closeModal(); resetForm();" class="submit-btn">متوجه شدم</button>
         </div>
     `;
-    document.body.appendChild(confirmModal);
-}
-
-function trackSubmission() {
-    // ثبت آمار کلیک
-    const stats = JSON.parse(localStorage.getItem('submissionStats') || '{"count": 0}');
-    stats.count++;
-    stats.lastSubmission = new Date().toISOString();
-    localStorage.setItem('submissionStats', JSON.stringify(stats));
+    document.body.appendChild(successModal);
     
-    // بستن مودال بعد از 2 ثانیه
     setTimeout(() => {
-        closeModal();
-        
-        // نمایش پیام تشکر
-        const thankYouModal = document.createElement('div');
-        thankYouModal.className = 'contact-modal';
-        thankYouModal.innerHTML = `
-            <div class="modal-content success">
-                <div class="success-icon">🙏</div>
-                <h2>متشکریم!</h2>
-                <p>درخواست شما در حال بررسی است.<br>در اسرع وقت با شما تماس خواهیم گرفت.</p>
-                <button onclick="closeModal()" class="submit-btn">متوجه شدم</button>
-            </div>
-        `;
-        document.body.appendChild(thankYouModal);
-        
-        // بستن خودکار بعد از 4 ثانیه
-        setTimeout(closeModal, 4000);
-    }, 2000);
+        if (document.querySelector('.contact-modal')) {
+            closeModal();
+            resetForm();
+        }
+    }, 8000);
 }
 
-function copyToClipboard(text) {
-    navigator.clipboard.writeText(text).then(() => {
-        alert('✅ لینک کپی شد!');
-    }).catch(() => {
-        // Fallback برای مرورگرهای قدیمی
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        alert('✅ لینک کپی شد!');
+function closeModal() {
+    const modals = document.querySelectorAll('.contact-modal');
+    modals.forEach(modal => {
+        modal.style.animation = 'fadeOut 0.3s ease';
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.parentNode.removeChild(modal);
+            }
+        }, 300);
     });
 }
-    function closeModal() {
-        const modal = document.querySelector('.contact-modal');
-        if (modal) {
-            modal.style.animation = 'fadeOut 0.3s ease';
-            setTimeout(() => modal.remove(), 300);
-        }
-    }
+
+function resetForm() {
+    document.getElementById('userCount').value = '6';
+    document.querySelector('input[name="vmOption"][value="no"]').checked = true;
+    document.getElementById('supportNeeded').checked = false;
+    document.getElementById('onsiteSupport').checked = false;
+    document.getElementById('branchConnection').checked = false;
+    document.getElementById('mikrotik').checked = false;
+    document.getElementById('gateway').checked = false;
+    document.getElementById('crm').checked = false;
+    document.getElementById('sms').checked = false;
     
-    function showSuccessMessage() {
-        const successModal = document.createElement('div');
-        successModal.className = 'contact-modal';
-        successModal.innerHTML = `
-            <div class="modal-content success">
-                <div class="success-icon">✓</div>
-                <h2>درخواست شما با موفقیت ثبت شد!</h2>
-                <p>در اسرع وقت کارشناسان ما با شما تماس خواهند گرفت.</p>
-                <button onclick="closeModal()" class="submit-btn">متوجه شدم</button>
-            </div>
-        `;
-        document.body.appendChild(successModal);
-        
-        setTimeout(closeModal, 4000);
-    }
+    document.getElementById('supportSection').style.display = 'none';
+    document.getElementById('onsiteSection').style.display = 'none';
+    document.getElementById('branchSection').style.display = 'none';
+    document.getElementById('mikrotikSection').style.display = 'none';
     
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-        calculatePrice();
-        
-        // اجازه ارسال فرم با Enter
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && document.querySelector('.contact-modal')) {
-                sendToGoogleForm();
-            }
-        });
-    });
+    calculatePrice();
+}
+
+// ==================== Initialize ====================
+document.addEventListener('DOMContentLoaded', function() {
+    calculatePrice();
+});
