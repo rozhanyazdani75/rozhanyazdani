@@ -85,3 +85,21 @@ document.addEventListener('keydown', function(event) {
         closeFullscreen();
     }
 });
+
+document.getElementById('downloadBtn').addEventListener('click', function() {
+    // تشخیص دستگاه
+    const isMobile = /android|iphone|ipad|mobile/i.test(navigator.userAgent) || window.innerWidth <= 768;
+
+    // لینک فایل‌ها
+    const mobileFile = 'pdf/Rozhan_Yazdani_V_Phone.pdf'; // لینک نسخه گوشی
+    const desktopFile = 'pdf/Rozhan_Yazdani_V_laptop.pdf'; // لینک نسخه دسکتاپ
+
+    // انتخاب فایل مناسب
+    const fileToDownload = isMobile ? mobileFile : desktopFile;
+
+    // دانلود فایل
+    const link = document.createElement('a');
+    link.href = fileToDownload;
+    link.download = isMobile ? 'نسخه-گوشی.pdf' : 'نسخه-دسکتاپ.pdf'; // نام فایل
+    link.click();
+});
