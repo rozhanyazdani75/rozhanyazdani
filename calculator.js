@@ -289,11 +289,25 @@ function showContactModal(formData) {
     });
 }
 
+function convertPersianToEnglish(str) {
+    const persianNumbers = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    
+    for (let i = 0; i < 10; i++) {
+        str = str.replace(new RegExp(persianNumbers[i], 'g'), i);
+        str = str.replace(new RegExp(arabicNumbers[i], 'g'), i);
+    }
+    
+    return str;
+}
+
 // ==================== Send via EmailJS ====================
 async function sendViaEmailJS() {
     const name = document.getElementById('customerName').value.trim();
     const phone = document.getElementById('customerPhone').value.trim();
     
+    phone = convertPersianToEnglish(phone);
+
     // اعتبارسنجی
     if (!name || !phone) {
         alert('❌ لطفاً تمام فیلدها را پر کنید');
