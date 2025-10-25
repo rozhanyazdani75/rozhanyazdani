@@ -1,13 +1,20 @@
 /* blog.css */
 .blog-content h1 {
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: #1f3079;
     line-height: 1.4;
     margin-bottom: 1rem;
+        /* --- New styles for the "halo" effect --- */
+    display: inline-block; /* باعث می‌شود عرض h1 به اندازه محتوایش باشد */
+    background-color: rgba(238, 242, 249, 0.7); /* رنگ پس‌زمینه مشابه Breadcrumb */
+    padding: 0.7rem 1.8rem; /* پدینگ داخلی برای ایجاد فضای دور متن */
+    border-radius: 15px; /* گوشه‌های گرد */
+    box-shadow: 0 4px 15px rgba(197, 184, 224, 0.3); /* سایه ملایم بیرونی */
+    text-align: center; /* اطمینان از مرکزچین بودن متن داخل کادر */
 }
 .blog-content h1 span{
-    font-size: 1.3rem;
+    font-size: 1rem;
     font-weight: lighter;
 }
 /* General Blog Post Styles */
