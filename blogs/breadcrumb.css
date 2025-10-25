@@ -1,0 +1,74 @@
+/* breadcrumb.css */
+
+/* Main container for the breadcrumb in the nav */
+.breadcrumb-container {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    padding: 0.5rem 1rem;
+    margin: 0;
+    background-color: rgba(238, 242, 249, 0.7);
+    border-radius: 20px;
+    white-space: nowrap; /* جلوگیری از شکستن خط */
+}
+
+.breadcrumb li {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Style for the separator (e.g., '<') */
+.breadcrumb li:not(:last-child)::after {
+    content: '<'; /* You can use other characters like '/' or '>' */
+    margin: 0 0.6rem;
+    color: #99a3b0;
+    font-size: 0.8rem;
+}
+
+.breadcrumb a {
+    color: #4a5868;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+    color: #427dc0;
+}
+
+/* Style for the current/active page */
+.breadcrumb li.active {
+    color: #203F78;
+    font-weight: 600;
+    max-width: 150px; /* محدود کردن عرض عنوان مقاله */
+    overflow: hidden;
+    text-overflow: ellipsis; /* نمایش "..." برای متن طولانی */
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 968px) {
+    .breadcrumb li.active {
+        max-width: 100px; /* فضای کمتر در تبلت */
+    }
+}
+
+@media (max-width: 768px) {
+    /* When menu is vertical on mobile */
+    .breadcrumb-container {
+        width: 100%;
+    }
+    .breadcrumb {
+        width: 100%;
+        justify-content: center; /* مرکزچین کردن در حالت موبایل */
+        background-color: transparent;
+        padding: 1rem;
+    }
+    .breadcrumb li.active {
+        max-width: 200px; /* فضای بیشتر در حالت عمودی */
+    }
+}
